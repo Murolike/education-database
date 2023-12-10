@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_students_table
+      author: teacher
+      changes:
+        - createTable:
+            tableName: students
+            remarks: "Студенты"
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  remarks: "PK"
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: first_name
+                  type: varchar(255)
+                  remarks: "Имя"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: varchar(255)
+                  remarks: "Фамилия"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: middle_name
+                  type: varchar(255)
+                  remarks: "Отчество"
+                  constraints:
+                    nullable: true

@@ -1,0 +1,8 @@
+server:
+  port: 9000
+spring:
+  application:
+    name: "Education database"
+  jpa:
+    hibernate:
+      ddl-auto: none
