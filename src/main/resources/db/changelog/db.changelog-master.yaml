@@ -4,8 +4,8 @@ databaseChangeLog:
       author: teacher
       changes:
         - createTable:
-            tableName: students
-            remarks: "Студенты"
+            tableName: users
+            remarks: "Пользователи"
             columns:
               - column:
                   name: id
@@ -31,5 +31,29 @@ databaseChangeLog:
                   name: middle_name
                   type: varchar(255)
                   remarks: "Отчество"
+                  constraints:
+                    nullable: true
+              - column:
+                  name: phone_number
+                  type: varchar(10)
+                  remarks: "Номер телефона"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: birth_date
+                  type: date
+                  remarks: "Дата рождения"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: "timestamp with time zone"
+                  remarks: "Дата создания (По заветом, лучше отдельно хранить timestamp + tmz)"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: "timestamp with time zone"
+                  remarks: "Дата обновления (По заветом, лучше отдельно хранить timestamp + tmz)"
                   constraints:
                     nullable: true
