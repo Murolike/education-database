@@ -79,6 +79,9 @@ databaseChangeLog:
                   remarks: "FK users"
                   constraints:
                     nullable: false
+                    foreignKeyName: fk_lgn_usr_id
+                    referencedTableName: users
+                    referencedColumnNames: id
               - column:
                   name: token
                   type: varchar(255)
@@ -95,5 +98,170 @@ databaseChangeLog:
                   name: log_out
                   type: "timestamp with time zone"
                   remarks: "Дата де-аутентификации (По заветом, лучше отдельно хранить timestamp + tmz)"
+                  constraints:
+                    nullable: true
+  - changeSet:
+      id: create_products_table
+      author: teacher
+      changes:
+        - createTable:
+            tableName: products
+            remarks: "Продукты"
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  remarks: "PK"
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  remarks: "Название"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: price
+                  type: decimal(2)
+                  remarks: "Цена"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: "timestamp with time zone"
+                  remarks: "Дата создания (По заветом, лучше отдельно хранить timestamp + tmz)"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: "timestamp with time zone"
+                  remarks: "Дата обновления (По заветом, лучше отдельно хранить timestamp + tmz)"
+                  constraints:
+                    nullable: true
+  - changeSet:
+      id: create_order_statuses_table
+      author: teacher
+      changes:
+        - createTable:
+            tableName: order_statuses
+            remarks: "Статусы заказов"
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  remarks: "PK"
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  remarks: "Название"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: "timestamp with time zone"
+                  remarks: "Дата создания (По заветом, лучше отдельно хранить timestamp + tmz)"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: "timestamp with time zone"
+                  remarks: "Дата обновления (По заветом, лучше отдельно хранить timestamp + tmz)"
+                  constraints:
+                    nullable: true
+        - insert:
+            tableName: order_statuses
+            columns:
+              - column:
+                  name: name
+                  value: "Создан"
+              - column:
+                  name: created_at
+                  value: "NOW()"
+        - insert:
+            tableName: order_statuses
+            columns:
+              - column:
+                  name: name
+                  value: "Доставляется"
+              - column:
+                  name: created_at
+                  value: "NOW()"
+        - insert:
+            tableName: order_statuses
+            columns:
+              - column:
+                  name: name
+                  value: "Доставлен"
+              - column:
+                  name: created_at
+                  value: "NOW()"
+        - insert:
+            tableName: order_statuses
+            columns:
+              - column:
+                  name: name
+                  value: "Отменено"
+              - column:
+                  name: created_at
+                  value: "NOW()"
+  - changeSet:
+      id: create_orders_table
+      author: teacher
+      changes:
+        - createTable:
+            tableName: orders
+            remarks: "Заказы"
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  remarks: "PK"
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: int
+                  remarks: "FK Пользователь"
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_ord_usr_id
+                    referencedTableName: users
+                    referencedColumnNames: id
+              - column:
+                  name: product_id
+                  type: int
+                  remarks: "FK Продукт"
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_ord_prd_id
+                    referencedTableName: products
+                    referencedColumnNames: id
+              - column:
+                  name: order_status_id
+                  type: int
+                  remarks: "FK Статус заказа"
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_ord_ord_sts_id
+                    referencedTableName: order_statuses
+                    referencedColumnNames: id
+              - column:
+                  name: created_at
+                  type: "timestamp with time zone"
+                  remarks: "Дата создания (По заветом, лучше отдельно хранить timestamp + tmz)"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: "timestamp with time zone"
+                  remarks: "Дата обновления (По заветом, лучше отдельно хранить timestamp + tmz)"
                   constraints:
                     nullable: true
