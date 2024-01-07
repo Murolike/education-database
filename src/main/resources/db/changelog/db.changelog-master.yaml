@@ -124,7 +124,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: price
-                  type: decimal(2)
+                  type: decimal(12,2)
                   remarks: "Цена"
                   constraints:
                     nullable: false

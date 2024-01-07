@@ -15,24 +15,26 @@ import java.time.LocalDate;
 @Schema(description = "Форма запроса для создания/редактирования студента")
 public class UserForm {
 
-    @Length(max = 255)
     @NotBlank
+    @Length(min = 1, max = 255)
     @Schema(description = "Имя")
     private String firstName;
 
-    @Length(max = 255)
+    @NotBlank
+    @Length(min = 1, max = 255)
     @Schema(description = "Фамилия")
     private String lastName;
 
+    @Length(max = 255)
     @Schema(description = "Отчество")
     private String middleName;
 
-    @Schema(description = "Номер телефона")
     @Length(min = 10, max = 10)
+    @Schema(description = "Номер телефона")
     private String phoneNumber;
 
-    @Schema(description = "Дата рождения")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @JsonFormat(pattern = "yyyy-MM-dd")
+    @Schema(description = "Дата рождения")
     private LocalDate birthDate;
 }
