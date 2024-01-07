@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: create_students_table
+      id: create_users_table
       author: teacher
       changes:
         - createTable:
@@ -55,5 +55,45 @@ databaseChangeLog:
                   name: updated_at
                   type: "timestamp with time zone"
                   remarks: "Дата обновления (По заветом, лучше отдельно хранить timestamp + tmz)"
+                  constraints:
+                    nullable: true
+  - changeSet:
+      id: create_logon_table
+      author: teacher
+      changes:
+        - createTable:
+            tableName: logon
+            remarks: "Логирование аутентификации"
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  remarks: "PK"
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: int
+                  remarks: "FK users"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: token
+                  type: varchar(255)
+                  remarks: "Токен"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: log_in
+                  type: "timestamp with time zone"
+                  remarks: "Дата аутентификации (По заветом, лучше отдельно хранить timestamp + tmz)"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: log_out
+                  type: "timestamp with time zone"
+                  remarks: "Дата де-аутентификации (По заветом, лучше отдельно хранить timestamp + tmz)"
                   constraints:
                     nullable: true
