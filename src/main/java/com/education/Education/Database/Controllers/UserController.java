@@ -5,6 +5,7 @@ import com.education.Education.Database.Models.User;
 import com.education.Education.Database.Responses.UserResponse;
 import com.education.Education.Database.Services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -23,13 +24,26 @@ public class UserController {
 
     @GetMapping
     @Operation(summary = "Поиск всех пользователей", tags = {"User"})
-    @ApiResponses({@ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = UserResponse.class), mediaType = "application/json")}),})
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    content = {
+                            @Content(
+                                    array = @ArraySchema(schema = @Schema(implementation = UserResponse.class)),
+                                    mediaType = "application/json"
+                            )
+                    }
+            )
+    })
     public Iterable<UserResponse> index() {
         return this.userService.findAll();
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Получить пользователя по идентификатору", tags = {"User"})
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = UserResponse.class), mediaType = "application/json")})
+    })
     public UserResponse get(@PathVariable("id") Long id) {
         User user = this.userService.findById(id);
 
@@ -38,6 +52,9 @@ public class UserController {
 
     @PostMapping
     @Operation(summary = "Добавление пользователя", tags = {"User"})
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = UserResponse.class), mediaType = "application/json")})
+    })
     public UserResponse create(@Valid @RequestBody UserForm userForm) {
         User user = this.userService.create(userForm);
 
@@ -46,6 +63,9 @@ public class UserController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Редактирование пользователя", tags = {"User"})
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = UserResponse.class), mediaType = "application/json")})
+    })
     public UserResponse update(@PathVariable("id") Long id, @Valid @RequestBody UserForm userForm) {
         User user = this.userService.findById(id);
         user = this.userService.update(user, userForm);
@@ -55,7 +75,10 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Удаление пользователя", tags = {"User"})
-    @ApiResponses({@ApiResponse(responseCode = "500", description = "Проблемы при выполнении ПО"),})
+    @ApiResponses({
+            @ApiResponse(responseCode = "200"),
+            @ApiResponse(responseCode = "500", description = "Проблемы при выполнении ПО"),
+    })
     public void delete(@PathVariable("id") Long id) {
         User user = this.userService.findById(id);
         this.userService.delete(user);

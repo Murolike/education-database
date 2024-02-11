@@ -6,3 +6,5 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+springdoc:
+  enable-data-rest: false

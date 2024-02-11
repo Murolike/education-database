@@ -1,5 +1,6 @@
 package com.education.Education.Database.Services;
 
+import com.education.Education.Database.Exceptions.NotFoundException;
 import com.education.Education.Database.Forms.ProductForm;
 import com.education.Education.Database.Models.Product;
 import com.education.Education.Database.Repositories.ProductRepository;
@@ -48,7 +49,7 @@ public class ProductService {
     }
 
     public Product findById(Long id) {
-        return this.repository.findById(id).orElseThrow();
+        return this.repository.findById(id).orElseThrow(NotFoundException::new);
     }
 
     public Iterable<ProductResponse> findAll() {
@@ -56,13 +57,7 @@ public class ProductService {
         ArrayList<ProductResponse> models = new ArrayList<>();
 
         for (Product product : cursor) {
-            ProductResponse model = ProductResponse.builder()
-                    .id(product.getId())
-                    .name(product.getName())
-                    .price(product.getPrice())
-                    .createdAt(product.getCreatedAt())
-                    .updatedAt(product.getUpdatedAt())
-                    .build();
+            ProductResponse model = this.getSingleResponse(product);
 
             models.add(model);
         }

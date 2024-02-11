@@ -197,7 +197,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: name
-                  value: "Доставлен"
+                  value: "Выполнен"
               - column:
                   name: created_at
                   value: "NOW()"

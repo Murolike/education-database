@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +24,9 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping
-    @Operation(
-            summary = "Получить список",
-            tags = {"Product"},
-            responses = @ApiResponse(
+    @Operation(summary = "Получить список", tags = {"Product"})
+    @ApiResponses({
+            @ApiResponse(
                     responseCode = "200",
                     content = {
                             @Content(
@@ -35,22 +35,16 @@ public class ProductController {
                             )
                     }
             )
-    )
+    })
     public Iterable<ProductResponse> index() {
         return this.productService.findAll();
     }
 
     @GetMapping("/{id}")
-    @Operation(
-            summary = "Получить по идентификатору",
-            tags = {"Product"},
-            responses = @ApiResponse(
-                    responseCode = "200",
-                    content = {
-                            @Content(schema = @Schema(implementation = ProductResponse.class), mediaType = "application/json")
-                    }
-            )
-    )
+    @Operation(summary = "Получить по идентификатору", tags = {"Product"})
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = ProductResponse.class), mediaType = "application/json")})
+    })
     public ProductResponse get(@PathVariable("id") Long id) {
         Product product = this.productService.findById(id);
 
@@ -58,16 +52,10 @@ public class ProductController {
     }
 
     @PostMapping
-    @Operation(
-            summary = "Создание",
-            tags = {"Product"},
-            responses = @ApiResponse(
-                    responseCode = "200",
-                    content = {
-                            @Content(schema = @Schema(implementation = ProductResponse.class), mediaType = "application/json")
-                    }
-            )
-    )
+    @Operation(summary = "Создание", tags = {"Product"})
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = ProductResponse.class), mediaType = "application/json")})
+    })
     public ProductResponse create(@Valid @RequestBody ProductForm productForm) {
         Product product = this.productService.create(productForm);
 
@@ -75,16 +63,10 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    @Operation(
-            summary = "Обновление",
-            tags = {"Product"},
-            responses = @ApiResponse(
-                    responseCode = "200",
-                    content = {
-                            @Content(schema = @Schema(implementation = ProductResponse.class), mediaType = "application/json")
-                    }
-            )
-    )
+    @Operation(summary = "Обновление", tags = {"Product"})
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = ProductResponse.class), mediaType = "application/json")})
+    })
     public ProductResponse update(@PathVariable("id") Long id, @Valid @RequestBody ProductForm productForm) {
         Product product = this.productService.findById(id);
         product = this.productService.update(product, productForm);
@@ -92,11 +74,10 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(
-            summary = "Удаление",
-            tags = {"Product"},
-            responses = @ApiResponse(responseCode = "200")
-    )
+    @Operation(summary = "Удаление", tags = {"Product"})
+    @ApiResponses({
+            @ApiResponse(responseCode = "200")
+    })
     public void delete(@PathVariable("id") Long id) {
         Product product = this.productService.findById(id);
         this.productService.delete(product);

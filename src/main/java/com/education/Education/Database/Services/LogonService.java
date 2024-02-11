@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 
 @Service
 public class LogonService {
+
     @Autowired
     private LogonRepository repository;
     @Autowired
@@ -38,12 +39,11 @@ public class LogonService {
     public Logon create(User user) {
         Logon model = new Logon();
         model.setUser(user);
-        model.setToken(RandomStringUtils.randomAlphabetic(10));
+        model.setToken(RandomStringUtils.randomAlphabetic(128));
         model.setLogIn(LocalDateTime.now());
 
         return repository.save(model);
     }
-
 
     public LogonResponse getSingleResponse(Logon logon) {
         User user = logon.getUser();

@@ -1,5 +1,6 @@
 package com.education.Education.Database.Services;
 
+import com.education.Education.Database.Exceptions.NotFoundException;
 import com.education.Education.Database.Forms.UserForm;
 import com.education.Education.Database.Models.User;
 import com.education.Education.Database.Repositories.UserRepository;
@@ -21,16 +22,7 @@ public class UserService {
         ArrayList<UserResponse> models = new ArrayList<>();
 
         for (User user : cursor) {
-            UserResponse model = UserResponse.builder()
-                    .id(user.getId())
-                    .firstName(user.getFirstName())
-                    .lastName(user.getLastName())
-                    .middleName(user.getMiddleName())
-                    .birthDate(user.getBirthDate())
-                    .phoneNumber(user.getPhoneNumber())
-                    .createdAt(user.getCreatedAt())
-                    .updatedAt(user.getUpdatedAt())
-                    .build();
+            UserResponse model = this.getSingleResponse(user);
 
             models.add(model);
         }
@@ -39,7 +31,7 @@ public class UserService {
     }
 
     public User findById(Long id) {
-        return this.repository.findById(id).orElseThrow();
+        return this.repository.findById(id).orElseThrow(NotFoundException::new);
     }
 
     public User create(UserForm userForm) {

@@ -28,7 +28,7 @@ public class LogonController {
     private UserService userService;
 
     @PostMapping("/in")
-    @Operation(method = "POST", summary = "Вход", tags = {"Logon"})
+    @Operation(summary = "Вход", tags = {"Logon"})
     @ApiResponses({@ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = LogonResponse.class), mediaType = "application/json")}),})
     public LogonResponse in(@RequestParam Long userId) {
         User user = userService.findById(userId);
@@ -37,7 +37,7 @@ public class LogonController {
     }
 
     @PostMapping("/out")
-    @Operation(method = "POST", summary = "Выход", tags = {"Logon"})
+    @Operation(summary = "Выход", tags = {"Logon"})
     @ApiResponses({@ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = LogonResponse.class), mediaType = "application/json")}),})
     public LogonResponse out(@RequestParam String token) {
         Logon logon = logonService.findByToken(token);
