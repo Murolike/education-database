@@ -8,6 +8,8 @@ import com.education.Education.Database.Responses.OrderStatusResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 public class OrderStatusService {
 
@@ -20,6 +22,19 @@ public class OrderStatusService {
 
     public OrderStatus findById(Long id) {
         return this.repository.findById(id).orElseThrow(NotFoundException::new);
+    }
+
+    public Iterable<OrderStatusResponse> findAll() {
+        Iterable<OrderStatus> cursor = this.repository.findAll();
+        ArrayList<OrderStatusResponse> models = new ArrayList<>();
+
+        for (OrderStatus orderStatus : cursor) {
+            OrderStatusResponse model = this.getSingleResponse(orderStatus);
+
+            models.add(model);
+        }
+
+        return models;
     }
 
     public OrderStatusResponse getSingleResponse(OrderStatus orderStatus) {

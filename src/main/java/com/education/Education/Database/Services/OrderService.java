@@ -41,6 +41,7 @@ public class OrderService {
         order.setUser(orderDTO.getUser());
         order.setProduct(orderDTO.getProduct());
         order.setOrderStatus(orderDTO.getStatus());
+        order.setUpdatedAt(LocalDateTime.now());
 
         return this.repository.save(order);
     }
@@ -79,6 +80,7 @@ public class OrderService {
 
     public Order changeStatus(Order order, OrderStatus orderStatus) {
         order.setOrderStatus(orderStatus);
+        order.setUpdatedAt(LocalDateTime.now());
 
         this.repository.save(order);
 
